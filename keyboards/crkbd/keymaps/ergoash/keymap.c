@@ -26,24 +26,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _NUM 3
 #define _ADJUST 4
 
-#define _______ KC_TRNS
-
 // Custom codes shortcuts
 #define CC_NAVF LT(_NAV, KC_F)
-#define CC_NAVJ LT(_NAV, KC_J)
 #define CC_ADJB LT(_ADJUST, KC_B)
 #define CC_ALTE LALT(KC_ENT)
-#define CC_GUIE LGUI_T(KC_ENT)
+#define CC_GUIE LGUI_T(KC_ENT)
 #define CC_MONU MO(_NUM)
 
-
+#define CC_DFQW DF(_QWERTY)
+#define CC_DFGA DF(_GAMING)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_ESC,    KC_A,    KC_S,    KC_D, CC_NAVF,    KC_G,                         KC_H, CC_NAVJ,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
+       KC_ESC,    KC_A,    KC_S,    KC_D, CC_NAVF,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL,    KC_Z,    KC_X,    KC_C,    KC_V, CC_ADJB,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, CC_ALTE,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -85,19 +83,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V, CC_ADJB,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_CTRL, _______,  KC_SPC,    _______, _______, _______
+                                          KC_RCTL, _______,  KC_SPC,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
   [_NAV] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, KC_WH_D, KC_MS_U, KC_WH_U,   KC_NO,   KC_NO,                        KC_NO, KC_PGDN, KC_PGUP,   KC_NO,   KC_NO, _______,
+      _______, KC_WH_D, KC_MS_U, KC_WH_U, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_PGDN, KC_PGUP, XXXXXXX, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, KC_MS_L, KC_MS_D, KC_MS_R,   KC_NO,   KC_NO,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,   KC_NO,   KC_NO, 
+      _______, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX, XXXXXXX, 
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                        KC_NO, KC_HOME,  KC_END,   KC_NO,   KC_NO, _______, 
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_HOME,  KC_END, XXXXXXX, XXXXXXX, _______, 
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                            KC_NO, KC_BTN1, KC_BTN2,    _______, _______, _______
+                                          XXXXXXX, KC_BTN1, KC_BTN2,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -109,19 +107,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_SLSH, KC_BSLS, KC_LBRC, KC_RBRC, KC_MINS,                       KC_EQL,    KC_U,    KC_I,    KC_O,    KC_P, _______, 
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         ________, _______, _______,    _______, _______, _______
+                                          _______, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
   [_ADJUST] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                        KC_NO, KC_VOLD, KC_VOLU,   KC_NO,   DF(_QWERTY),QK_REBOOT, 
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_VOLD, KC_VOLU, XXXXXXX, CC_DFQW,  QK_RBT, 
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI,   KC_NO,                      KC_MPLY, KC_MPRV, KC_MNXT,   KC_NO,   KC_NO, KC_PSCR, 
+      _______, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX,                      KC_MPLY, KC_MPRV, KC_MNXT, XXXXXXX, XXXXXXX, KC_PSCR, 
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD,   KC_NO,                        KC_NO, KC_BRID, KC_BRIU,   KC_NO,   DF(_GAMING),_______, 
+      _______, RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX,                      XXXXXXX, KC_BRID, KC_BRIU, XXXXXXX, CC_DFGA, _______, 
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                            KC_NO, _______, _______,    _______, _______, _______
+                                          XXXXXXX, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   )
 };
