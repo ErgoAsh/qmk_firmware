@@ -21,33 +21,33 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 
 #define _QWERTY 0
-#define _GAMING 4
-#define _NAV 1
-#define _NUM 2
-#define _ADJUST 3
+#define _GAMING 1
+#define _NAV 2
+#define _NUM 3
+#define _ADJUST 4
+
+#define _______ KC_TRNS
+
+// Custom codes shortcuts
+#define CC_NAVF LT(_NAV, KC_F)
+#define CC_NAVJ LT(_NAV, KC_J)
+#define CC_ADJB LT(_ADJUST, KC_B)
+#define CC_ALTE LALT(KC_ENT)
+#define CC_GUIE LGUI_T(KC_ENT)
+#define CC_MONU MO(_NUM)
+
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_ESC,    KC_A,    KC_S,    KC_D,LT(_NAV,KC_F),KC_G,                        KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
+       KC_ESC,    KC_A,    KC_S,    KC_D, CC_NAVF,    KC_G,                         KC_H, CC_NAVJ,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL,    KC_Z,    KC_X,    KC_C,    KC_V,LT(_ADJUST,KC_B),             KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,LALT_T(KC_ENT),
+      KC_LCTL,    KC_Z,    KC_X,    KC_C,    KC_V, CC_ADJB,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, CC_ALTE,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         TO(_GAMING),LGUI_T(KC_ENT),KC_RSFT,MO(_NUM),KC_SPC,KC_RALT
-                                      //`--------------------------'  `--------------------------'
-  ),
-
-  [_GAMING] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_BSPC,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_ESC,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                       TO(_QWERTY),KC_TRNS,  KC_SPC,    KC_TRNS, KC_TRNS, KC_TRNS
+                                         KC_PMNS,  CC_GUIE, KC_RSFT,    CC_MONU,  KC_SPC, KC_RALT
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -76,74 +76,90 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   ),
 */
+
+  [_GAMING] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_BSPC,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+       KC_ESC,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V, CC_ADJB,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          KC_CTRL, _______,  KC_SPC,    _______, _______, _______
+                                      //`--------------------------'  `--------------------------'
+  ),
+
   [_NAV] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        KC_NO, KC_WH_D, KC_MS_U, KC_WH_U,   KC_NO,   KC_NO,                        KC_NO, KC_PGDN, KC_PGUP,   KC_NO,   KC_NO,   KC_NO,
+      _______, KC_WH_D, KC_MS_U, KC_WH_U,   KC_NO,   KC_NO,                        KC_NO, KC_PGDN, KC_PGUP,   KC_NO,   KC_NO, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-  TO(_QWERTY), KC_MS_L, KC_MS_D, KC_MS_R,   KC_NO,   KC_NO,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,   KC_NO,   KC_NO, 
+      _______, KC_MS_L, KC_MS_D, KC_MS_R,   KC_NO,   KC_NO,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,   KC_NO,   KC_NO, 
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS,   KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_BTN2,                        KC_NO, KC_HOME,  KC_END,   KC_NO,   KC_NO, KC_TRNS, 
+      _______,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                        KC_NO, KC_HOME,  KC_END,   KC_NO,   KC_NO, _______, 
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         TO(_NUM), KC_BTN1, KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS
+                                            KC_NO, KC_BTN1, KC_BTN2,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
   [_NUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_GRV, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC, 
+       KC_GRV, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______, 
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-  TO(_QWERTY),    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_PEQL, 
+      _______,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_PEQL, 
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, KC_SLSH, KC_BSLS, KC_LBRC, KC_RBRC, KC_MINS,                       KC_EQL,    KC_U,    KC_I,    KC_O,    KC_P, KC_TRNS, 
+      _______, KC_SLSH, KC_BSLS, KC_LBRC, KC_RBRC, KC_MINS,                       KC_EQL,    KC_U,    KC_I,    KC_O,    KC_P, _______, 
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                      TO(_ADJUST), KC_TRNS, KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS
+                                         ________, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
   [_ADJUST] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                        KC_NO, KC_VOLD, KC_VOLU,   KC_NO,   DF(_QWERTY),QK_BOOT, 
+        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                        KC_NO, KC_VOLD, KC_VOLU,   KC_NO,   DF(_QWERTY),QK_REBOOT, 
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-  TO(_QWERTY), RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI,   KC_NO,                      KC_MPLY, KC_MPRV, KC_MNXT,   KC_NO,   KC_NO, KC_PSCR, 
+      _______, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI,   KC_NO,                      KC_MPLY, KC_MPRV, KC_MNXT,   KC_NO,   KC_NO, KC_PSCR, 
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD,   KC_NO,                        KC_NO, KC_BRID, KC_BRIU,   KC_NO,   DF(_GAMING),KC_TRNS, 
+      _______, RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD,   KC_NO,                        KC_NO, KC_BRID, KC_BRIU,   KC_NO,   DF(_GAMING),_______, 
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                      TO(_QWERTY), KC_TRNS, KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS
+                                            KC_NO, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   )
 };
 
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-  if (!is_keyboard_master()) {
-    return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
-  }
-  return rotation;
+    if (!is_keyboard_master()) {
+        return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
+    }
+    return rotation;
 }
 
-#define L_BASE 0
-#define L_LOWER 2
-#define L_RAISE 4
-#define L_ADJUST 8
+#define L_QWERTY 0
+#define L_GAMING 2
+#define L_NAV 4
+#define L_NUM 8
+#define L_ADJUST 16
 
 void oled_render_layer_state(void) {
     oled_write_P(PSTR("Layer: "), false);
     switch (layer_state) {
-        case L_BASE:
-            oled_write_ln_P(PSTR("Default"), false);
+        case L_QWERTY:
+            oled_write_ln_P(PSTR("QWERTY"), false);
             break;
-        case L_LOWER:
-            oled_write_ln_P(PSTR("Lower"), false);
+        case L_GAMING:
+            oled_write_ln_P(PSTR("Gaming"), false);
             break;
-        case L_RAISE:
-            oled_write_ln_P(PSTR("Raise"), false);
+        case L_NAV:
+            oled_write_ln_P(PSTR("Navigation"), false);
+            break;
+        case L_NUM:
+            oled_write_ln_P(PSTR("Numeric"), false);
             break;
         case L_ADJUST:
-        case L_ADJUST|L_LOWER:
-        case L_ADJUST|L_RAISE:
-        case L_ADJUST|L_LOWER|L_RAISE:
-            oled_write_ln_P(PSTR("Adjust"), false);
+            oled_write_ln_P(PSTR("Adjustment"), false);
             break;
+        default:
+            oled_write_ln_P(PSTR("Undefined/intermediate"), false);
     }
 }
 
@@ -157,17 +173,17 @@ const char code_to_name[60] = {
     '#', ';', '\'', '`', ',', '.', '/', ' ', ' ', ' '};
 
 void set_keylog(uint16_t keycode, keyrecord_t *record) {
-  char name = ' ';
+    char name = ' ';
     if ((keycode >= QK_MOD_TAP && keycode <= QK_MOD_TAP_MAX) ||
-        (keycode >= QK_LAYER_TAP && keycode <= QK_LAYER_TAP_MAX)) { keycode = keycode & 0xFF; }
-  if (keycode < 60) {
-    name = code_to_name[keycode];
-  }
+            (keycode >= QK_LAYER_TAP && keycode <= QK_LAYER_TAP_MAX)) { keycode = keycode & 0xFF; }
+    if (keycode < 60) {
+        name = code_to_name[keycode];
+    }
 
-  // update keylog
-  snprintf(keylog_str, sizeof(keylog_str), "%dx%d, k%2d : %c",
-           record->event.key.row, record->event.key.col,
-           keycode, name);
+    // update keylog
+    snprintf(keylog_str, sizeof(keylog_str), "%dx%d, k%2d : %c",
+            record->event.key.row, record->event.key.col,
+            keycode, name);
 }
 
 void oled_render_keylog(void) {
@@ -210,9 +226,9 @@ bool oled_task_user(void) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (record->event.pressed) {
-    set_keylog(keycode, record);
-  }
-  return true;
+    if (record->event.pressed) {
+        set_keylog(keycode, record);
+    }
+    return true;
 }
 #endif // OLED_ENABLE
