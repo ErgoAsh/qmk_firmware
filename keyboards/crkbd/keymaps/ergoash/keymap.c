@@ -51,8 +51,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // TODO replace KC_PMNS with something else 
 // Maybe change place with CC_GUIE and put _NAV layer there
 
-// TODO move OLED stuff to a different file
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
@@ -70,9 +68,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_TAB,    KC_B,    KC_Y,    KC_O,    KC_U, KC_QUOT,                      KC_DQUO,    KC_L,    KC_D,    KC_W,   KC_V,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_ESC,    KC_C,    KC_I,    KC_E,    KC_A, KC_COMM,                       KC_DOT,    KC_H,    KC_T,    KC_S,    KC_N,    KC_Q,
+       KC_ESC,    KC_C,    KC_I,    KC_E, CC_NAVA, KC_COMM,                       KC_DOT,    KC_H,    KC_T,    KC_S,    KC_N,    KC_Q,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL,    KC_G,    KC_X,    KC_J,    KC_K, CC_ADJM,                      CC_FUNQ,    KC_R,   KC_M,    KC_F,    KC_P,  CC_ALTZ,
+      KC_LCTL,    KC_G,    KC_X,    KC_J,    KC_K, CC_ADJM,                      KC_QUES,    KC_R,   KC_M,    KC_F,    KC_P,  CC_ALTZ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                          KC_PMNS,  CC_GUIE, KC_RSFT,    CC_MONE,  KC_SPC, KC_RALT
                                       //`--------------------------'  `--------------------------'
@@ -120,7 +118,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCBR,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_RCBR, 
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______,  KC_GRV, KC_TILD,  KC_DLR,   KC_AT, KC_SLSH,                      KC_PSLS,    KC_U,    KC_I,    KC_O,    KC_P, KC_LALT, 
+      _______,  KC_GRV, KC_TILD,  KC_DLR,   KC_AT, KC_BSLS,                      KC_SLSH,    KC_U,    KC_I,    KC_O,    KC_P, KC_LALT, 
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
@@ -154,14 +152,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Replace Shift+Backspace with Delete key
 const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_DEL);
 
-const key_override_t T_override = ko_make_with_layers(MOD_MASK_SHIFT, KC_QUOT, KC_LPRN, ~(1 << _ENGRAM)); // ' -> (
-const key_override_t Y_override = ko_make_with_layers(MOD_MASK_SHIFT, KC_DQUO, KC_RPRN, ~(1 << _ENGRAM)); // " -> ^
+const key_override_t T_override = ko_make_with_layers(MOD_MASK_SHIFT, KC_QUOT, KC_LPRN, (1 << _ENGRAM)); // ' -> (
+const key_override_t Y_override = ko_make_with_layers(MOD_MASK_SHIFT, KC_DQUO, KC_RPRN, (1 << _ENGRAM)); // " -> ^
 
-const key_override_t G_override = ko_make_with_layers(MOD_MASK_SHIFT, KC_COMM, KC_SCLN, ~(1 << _ENGRAM)); // , -> ;
-const key_override_t H_override = ko_make_with_layers(MOD_MASK_SHIFT, KC_DOT,  KC_COLN, ~(1 << _ENGRAM)); // . -> :
+const key_override_t G_override = ko_make_with_layers(MOD_MASK_SHIFT, KC_COMM, KC_SCLN, (1 << _ENGRAM)); // , -> ;
+const key_override_t H_override = ko_make_with_layers(MOD_MASK_SHIFT, KC_DOT,  KC_COLN, (1 << _ENGRAM)); // . -> :
 
-const key_override_t B_override = ko_make_with_layers(MOD_MASK_SHIFT, KC_MINS, KC_UNDS, ~(1 << _ENGRAM)); // - -> _
-const key_override_t N_override = ko_make_with_layers(MOD_MASK_SHIFT, KC_QUES, KC_EXLM, ~(1 << _ENGRAM)); // ? -> !
+const key_override_t B_override = ko_make_with_layers(MOD_MASK_SHIFT, KC_MINS, KC_UNDS, (1 << _ENGRAM)); // - -> _
+const key_override_t N_override = ko_make_with_layers(MOD_MASK_SHIFT, KC_QUES, KC_EXLM, (1 << _ENGRAM)); // ? -> !
 
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
