@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 #include "keycode.h"
 #include "process_key_override.h"
+#include "oled.h"
 
 #define _QWERTY 0
 #define _ENGRAM 1
@@ -29,15 +30,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _ADJUST 6
 #define _FUNCTION 7
 
-// Custom codes shortcuts
+// Custom codes macros
 #define CC_NAVF LT(_NAV, KC_F)
-#define CC_NAVA LT(_ADJUST, KC_A)
+#define CC_NAVA LT(_NAV, KC_A)
 
 #define CC_ADJB LT(_ADJUST, KC_B)
 #define CC_ADJM LT(_ADJUST, KC_MINS)
 
-#define CC_FUNQ LT(_FUNCTION, KC_QUES)
-#define CC_FUNN LT(_FUNCTION, KC_N)
+#define CC_FUNU LT(_FUNCTION, KC_QUOT)
+#define CC_FUNQ LT(_FUNCTION, KC_Q)
 
 #define CC_ALTZ LALT_T(KC_Z)
 #define CC_GUIE LGUI_T(KC_ENT)
@@ -56,11 +57,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_ESC,    KC_A,    KC_S,    KC_D, CC_NAVF,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
+       KC_ESC,    KC_A,    KC_S,    KC_D, CC_NAVF,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, CC_FUNU,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL,    KC_Z,    KC_X,    KC_C,    KC_V, CC_ADJB,                      CC_FUNN,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, CC_ALTZ,
+      KC_LCTL,    KC_Z,    KC_X,    KC_C,    KC_V, CC_ADJB,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, CC_ALTZ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         KC_PMNS,  CC_GUIE, KC_RSFT,    CC_MONQ,  KC_SPC, KC_RALT
+                                         KC_RCTL,  CC_GUIE, KC_RSFT,    CC_MONQ,  KC_SPC, KC_RALT
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -68,11 +69,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_TAB,    KC_B,    KC_Y,    KC_O,    KC_U, KC_QUOT,                      KC_DQUO,    KC_L,    KC_D,    KC_W,   KC_V,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_ESC,    KC_C,    KC_I,    KC_E, CC_NAVA, KC_COMM,                       KC_DOT,    KC_H,    KC_T,    KC_S,    KC_N,    KC_Q,
+       KC_ESC,    KC_C,    KC_I,    KC_E, CC_NAVA, KC_COMM,                       KC_DOT,    KC_H,    KC_T,    KC_S,    KC_N, CC_FUNQ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL,    KC_G,    KC_X,    KC_J,    KC_K, CC_ADJM,                      KC_QUES,    KC_R,   KC_M,    KC_F,    KC_P,  CC_ALTZ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         KC_PMNS,  CC_GUIE, KC_RSFT,    CC_MONE,  KC_SPC, KC_RALT
+                                         KC_RCTL,  CC_GUIE, KC_RSFT,    CC_MONE,  KC_SPC, KC_RALT
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -126,7 +127,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_ADJUST] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_VOLD, KC_VOLU, XXXXXXX, CC_DFQW,  QK_RBT, 
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT,                      XXXXXXX, KC_VOLD, KC_VOLU, XXXXXXX, CC_DFQW, QK_BOOT, 
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX,                      KC_MPLY, KC_MPRV, KC_MNXT, XXXXXXX, CC_DFEN, KC_PSCR, 
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -170,3 +171,46 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     NULL // Null terminate the array of overrides!
 };
 
+layer_state_t layer_state_set_user(layer_state_t state) {
+    switch (get_highest_layer(state)) { // biton32 equivalent
+    case _NAV:
+        //rgblight_setrgb(0x00,  0x00, 0xFF);
+        break;
+    case _NUM_QWERTY:
+    case _NUM_ENGRAM:
+        //rgblight_setrgb(0xFF,  0x00, 0x00);
+        break;
+    case _ADJUST:
+        //rgblight_setrgb(0x00,  0xFF, 0x00);
+        break;
+    case _FUNCTION:
+        //rgblight_setrgb(0x7A,  0x00, 0xFF);
+        break;
+    default: // For any other layers, including default layer
+        switch (get_highest_layer(default_layer_state)) {
+        case _QWERTY:
+            //rgblight_setrgb(0x05,  0x00, 0xFF);
+            break;
+        case _ENGRAM:
+            //rgblight_setrgb(0x0A,  0x00, 0xFF);
+            break;
+        case _GAMING:
+            //rgblight_setrgb(0x0F,  0x00, 0xFF);
+            break;
+        default:
+            //rgblight_setrgb(0x14,  0x00, 0xFF);
+            break;
+        }
+        break;
+    }
+    return state;
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+#ifdef OLED_ENABLE
+    if (record->event.pressed) {
+        set_keylog(keycode, record);
+    }
+#endif
+    return true;
+}

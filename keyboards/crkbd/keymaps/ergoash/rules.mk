@@ -7,3 +7,4 @@ OLED_DRIVER     = SSD1306
 
 LTO_ENABLE      = yes    # Enable Link Time Optimization for saving space
 COMMAND_ENABLE   = no    # Disable commands for debug and configuration
+

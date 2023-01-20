@@ -18,6 +18,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 
 #ifdef OLED_ENABLE
+#define _QWERTY 0
+#define _ENGRAM 1
+#define _GAMING 2
+#define _NAV 3
+#define _NUM_QWERTY 4
+#define _NUM_ENGRAM 5
+#define _ADJUST 6
+#define _FUNCTION 7
+
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     if (!is_keyboard_master()) {
         return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
@@ -25,44 +34,39 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     return rotation;
 }
 
-#define L_QWERTY 0
-#define L_ENGRAM 1
-#define L_GAMING 2
-#define L_NAV 4
-#define L_NUM_QWERTY 8
-#define L_NUM_ENGRAM 16
-#define L_ADJUST 32
-#define L_FUNCTION 64
-
 void oled_render_layer_state(void) {
-    oled_write_P(PSTR("Layer: "), false);
-    switch (layer_state) {
-        case L_QWERTY:
+    oled_write_P(PSTR("Bot: "), false);
+    switch (get_highest_layer(default_layer_state)) {
+        case _QWERTY:
             oled_write_ln_P(PSTR("QWERTY"), false);
             break;
-        case L_ENGRAM:
+        case _ENGRAM:
             oled_write_ln_P(PSTR("Engram"), false);
             break;
-        case L_GAMING:
+        case _GAMING:
             oled_write_ln_P(PSTR("Gaming"), false);
             break;
-        case L_NAV:
+        default:
+            oled_write_ln_P(PSTR("None/undefined"), false);
+    }
+
+    oled_write_P(PSTR("Top: "), false);
+    switch (get_highest_layer(layer_state)) {
+        case _NAV:
             oled_write_ln_P(PSTR("Navigation"), false);
             break;
-        case L_NUM_QWERTY:
-            oled_write_ln_P(PSTR("Numeric (QWERTY)"), false);
+        case _NUM_QWERTY:
+        case _NUM_ENGRAM:
+            oled_write_ln_P(PSTR("Numeric"), false);
             break;
-        case L_NUM_ENGRAM:
-            oled_write_ln_P(PSTR("Numeric (Engram)"), false);
-            break;
-        case L_ADJUST:
+        case _ADJUST:
             oled_write_ln_P(PSTR("Adjustment"), false);
             break;
-        case L_FUNCTION:
+        case _FUNCTION:
             oled_write_ln_P(PSTR("Function"), false);
             break;
         default:
-            oled_write_ln_P(PSTR("Undefined/intermediate"), false);
+            oled_write_ln_P(PSTR("None/undefined"), false);
     }
 }
 
@@ -126,13 +130,6 @@ bool oled_task_user(void) {
         oled_render_logo();
     }
     return false;
-}
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (record->event.pressed) {
-        set_keylog(keycode, record);
-    }
-    return true;
 }
 #endif // OLED_ENABLE
 
